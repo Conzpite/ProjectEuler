@@ -1,39 +1,24 @@
 import math
 
-finalA = -1001
-finalB = -1001
-longestPrimesCount = 0
+sumNum = 0
 
-for a in range(-999, 1000):
-    for b in range(-1000, 1001):
-        primeCount = 0
+#add the 1 in the center
+sumNum += 1
 
-        n = 0
-        isPrime = True
-        while isPrime:
-            equation = n * n + n * a + b
-            if equation < 1:
-                isPrime = False
-                break
+increment = 0
 
-            #check if prime
-            isPrime = True
-            sqRt = round(math.sqrt(equation))
-            for i in range(2, sqRt + 1):
-                if equation % i == 0:
-                    isPrime = False
-                    break
+size = 1001
 
-            if isPrime == True:
-                primeCount += 1
-                n += 1
+#number of 'rings' surrounding the center
+rings = 1001 // 2 
+value = 1
 
+for ring in range(1, rings + 1):
+    increment += 2
 
-        if primeCount > longestPrimesCount:
-            longestPrimesCount = primeCount
-            finalA = a
-            finalB = b
+    #for each corner of the ring
+    for i in range(0, 4):
+        value += increment
+        sumNum += value
 
-print(finalA * finalB)
-
-
+print(sumNum)

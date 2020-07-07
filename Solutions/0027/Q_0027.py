@@ -1,66 +1,39 @@
 import math
 
-longestChainNum = 0
-longestD = 0
-for i in range(2,1000):
-    chain = []
-    isInfinite = True #if set to false, there is no recurring cycle
+finalA = -1001
+finalB = -1001
+longestPrimesCount = 0
 
-    '''
-    Since there is only up to 1000 values,
-    and fractional values are base on the denominator value
-    there can only be up to 1000 unique value before it loops or ends
-    so 1000 digits + a buffer should be sufficient to check for cycles
-    '''
-    maxDigits = 1100
-    value = 1   #unit fraction
-    for j in range(0, maxDigits):
-        while value < i:
-            value *= 10
+for a in range(-999, 1000):
+    for b in range(-1000, 1001):
+        primeCount = 0
 
-        chain.append(value // i)
-        value = value % i
-        
-        if value == 0:
-            #no more fractional value, end
-            isInfinite = False
-            break
-
-    if isInfinite == True:
-        #find recurring pattern length
-
-        #reverse so that starting non recursive stuff are ignored
-        chain.reverse()
-
-        cycle = []
-        cycleFound = False
-        
-        cycle.append(chain[0])
-
-        for j in range(1, len(chain)):
-            if chain[j] == cycle[0]:
-                #check ahead to see it is a proper cycle
-                cycleLen = len(cycle)
-                maxLength = cycleLen * 3
-                cycleFound = True
-
-                for k in range(0, maxLength):
-                    if j + k >= maxDigits:
-                        #print("Potential issue, check length of digits")
-                        break
-
-                    if cycle[k % cycleLen] != chain[j + k]:
-                        cycleFound = False
-                        cycle.append(chain[j])
-                        break
-            else:
-                cycle.append(chain[j])
-
-            if cycleFound == True:
+        n = 0
+        isPrime = True
+        while isPrime:
+            equation = n * n + n * a + b
+            if equation < 1:
+                isPrime = False
                 break
 
-        if cycleFound and longestChainNum <= len(cycle)  :
-            longestChainNum = len(cycle)
-            longestD = i
+            #check if prime
+            isPrime = True
+            sqRt = round(math.sqrt(equation))
+            for i in range(2, sqRt + 1):
+                if equation % i == 0:
+                    isPrime = False
+                    break
 
-print(longestD)
+            if isPrime == True:
+                primeCount += 1
+                n += 1
+
+
+        if primeCount > longestPrimesCount:
+            longestPrimesCount = primeCount
+            finalA = a
+            finalB = b
+
+print(finalA * finalB)
+
+
