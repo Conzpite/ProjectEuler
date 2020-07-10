@@ -5,7 +5,6 @@ with open("p022_names.txt", "r") as f:
     names = f.readline().split(",")
 
 names.sort()
-print(names)
 
 namePos = 1
 sumNum = 0
